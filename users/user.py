@@ -13,7 +13,11 @@ class User(ABC):
 class Cashier(User): 
   def __init__(self,dni:str,name:str,age:int,timeTable:str,salary:float):
     #Write your code here
-    pass      
+    def __init__(self, dni: str, name: str, age: int, till_id: str = "01"):
+        # Inicializa los atributos del padre
+        super().__init__(dni, name, age)
+        # Característica propia
+        self.till_id: str = till_id    
  
   def describe(self):
         return f"Cashier - Name: {self.name}, DNI: {self.dni} , Timetable: {self.timeTable}, Salary: {self.salary}."
@@ -21,8 +25,11 @@ class Cashier(User):
 class Customer(User):
   def __init__(self,dni:str,name:str,age:int,email:str,postalCode:str):
     #Write your code here
-    pass
-
+    def __init__(self, dni: str, name: str, age: int, customer_type: str = "Regular"):
+        # Inicializa los atributos del padre
+        super().__init__(dni, name, age)
+        # Característica propia
+        self.customer_type: str = customer_type
 
   def describe(self):
         return f"Customer - Name: {self.name}, DNI: {self.dni} , Age: {self.age}, Email: {self.email}, Postal Code: {self.postalCode}"
