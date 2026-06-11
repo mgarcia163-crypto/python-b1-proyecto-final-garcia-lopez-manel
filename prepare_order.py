@@ -112,9 +112,103 @@ class PrepareOrder:
  #Write your code here
  def __init__(self):
         self.file_manager = CSVFileManager()
+        self.user_converter = UserConverter()
+        self.product_converter = ProductConverter()
+
         self.cashiers = []
         self.customers = []
         self.products = []
+
+def load_data(self):
+# 1. Leer archivos CSV e instanciar CSVFileManager
+# 2. Convertir a listas de objetos
         
- pass
+# Cargar Usuarios
+        df_cashiers = self.file_manager.read("data/cashiers.csv")
+        self.cashiers = self.user_converter.convert(df_cashiers, "cashier")
+        
+        df_customers = self.file_manager.read("data/customers.csv")
+        self.customers = self.user_converter.convert(df_customers, "customer")
+
+        # Cargar Productos
+        df_hamburgers = self.file_manager.read("data/hamburgers.csv")
+        self.all_products.extend(self.product_converter.convert(df_hamburgers, "hamburger"))
+        
+        df_sodas = self.file_manager.read("data/sodas.csv")
+        self.all_products.extend(self.product_converter.convert(df_sodas, "soda"))
+        
+        df_drinks = self.file_manager.read("data/drinks.csv")
+        self.all_products.extend(self.product_converter.convert(df_drinks, "drink"))
+        
+        df_happymeals = self.file_manager.read("data/happyMeal.csv")
+        self.all_products.extend(self.product_converter.convert(df_happymeals, "happymeal"))
+
+def find_cashier(self, dni: str):
+        for c in self.cashiers:
+            if c.dni == dni:
+                return c
+        return None
+
+def find_customer(self, dni: str):
+        for c in self.customers:
+            if c.dni == dni:
+                return c
+        return None
+
+def find_product(self, prod_id: str):
+        for p in self.all_products:
+            if p.id == prod_id:
+                return p
+        return None
+
+def show_products(self):
+        print("\n--- Catálogo de Productos ---")
+        self.product_converter.print_info(self.all_products)
+        print("-----------------------------\n")
+
+def run(self):
+        self.load_data()
+        
+        print("=== SISTEMA DE COMIDA RÁPIDA ===")
+        
+# 3a. Buscar cajero
+        c_dni = input("Ingrese el DNI del Cajero: ")
+        cashier = self.find_cashier(c_dni)
+        if not cashier:
+            print("Cajero no encontrado. Abortando...")
+            return
+
+# 3b. Buscar cliente
+        cust_dni = input("Ingrese el DNI del Cliente: ")
+        customer = self.find_customer(cust_dni)
+        if not customer:
+            print("Cliente no encontrado. Abortando...")
+            return
+
+# 3c. Inicializar orden
+        order = Order(cashier, customer)
+
+# 3d y 3e. Escoger y agregar productos
+        while True:
+            self.show_products()
+            p_id = input("Ingrese el ID del producto a agregar (o 'Q' para finalizar orden): ")
+            if p_id.upper() == 'Q':
+                break
+            
+            product = self.find_product(p_id)
+            if product:
+                order.add(product) # 3f. Agregar productos
+                print(f"¡{product.name} agregado a la orden!")
+            else:
+                print("ID de producto no válido. Intente nuevamente.")
+
+# 4. Mostrar Orden
+        if order.products:
+            order.show()
+        else:
+            print("\nLa orden está vacía. No se generó ticket.")
+
+if __name__ == "__main__":
+    app = PrepareOrder()
+    app.run()
 
