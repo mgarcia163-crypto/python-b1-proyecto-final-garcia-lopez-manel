@@ -103,9 +103,18 @@ f.	Agregar productos: Utilizar la instancia la clase 'Order', del paso c y llama
 """
 #Write your code here
 from users import *
+from products import *
+from util import *
+from orders import *
 
     
 class PrepareOrder:
  #Write your code here
+ def __init__(self):
+        self.file_manager = CSVFileManager()
+        self.cashiers = []
+        self.customers = []
+        self.products = []
+        
  pass
 
