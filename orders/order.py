@@ -9,10 +9,12 @@ class Order:
 
   def add(self, product : Product):
     #Write your code here
+    self.products.append(product)
     pass
 
   def calculateTotal(self) -> float:
     #Write your code here
+    return sum(p.price for p in self.products)
     pass
   
   def show(self):    
